@@ -23,11 +23,20 @@
 
   function doTheTreeViz(control) {
 ccc = control
+if(typeof num_protein === 'undefined'){
+num_protein= ccc.nodes.map(x => x.right).filter(v => v).length
+
+}
+if(typeof num_metabolite === 'undefined'){
+num_metabolite = ccc.nodes.map(x => !x.right).filter(v => v).length - 81
+}
 
 
-$("#metabolite_text").text("number (radio) of metabolites: "+ccc.nodes.map(x => !x.right).filter(v => v).length + " ("+(ccc.nodes.map(x => !x.right).filter(v => v).length/968 * 100).toFixed(2)+"%)");
 
-$("#protein_text").text("number (radio) of metabolites: "+ccc.nodes.map(x => x.right).filter(v => v).length + " ("+(ccc.nodes.map(x => x.right).filter(v => v).length/220 * 100).toFixed(2)+"%)");
+
+$("#metabolite_text").text("number (radio) of metabolites: "+ccc.nodes.map(x => !x.right).filter(v => v).length + " ("+(ccc.nodes.map(x => !x.right).filter(v => v).length/num_metabolite * 100).toFixed(2)+"%)");
+
+$("#protein_text").text("number (radio) of proteins: "+ccc.nodes.map(x => x.right).filter(v => v).length + " ("+(ccc.nodes.map(x => x.right).filter(v => v).length/num_protein * 100).toFixed(2)+"%)");
 
     var svg = control.svg;
 
@@ -227,7 +236,12 @@ $("#protein_text").text("number (radio) of metabolites: "+ccc.nodes.map(x => x.r
    }
    
 function makeRadius(control,d) {
+
+console.log(d)
+
      var r = control.options.radius * (control.options.nodeResize ? Math.sqrt(d[control.options.nodeResize]) / Math.PI : 1);
+	 
+	 
      return control.options.nodeFocus && d.isCurrentlyFocused ? control.options.nodeFocusRadius  : r;
 }
 
@@ -337,14 +351,6 @@ function initialize () {
             .attr("width", control.width)
             .attr("height", control.height);
 
-		control.svg.append("line")
-.attr("x1", 187.25925925925924)  //<<== change your code here
-.attr("y1", 0)
-.attr("x2", 187.25925925925924)  //<<== and here
-.attr("y2", 10000)
-.style("stroke-width", 2)
-.style("stroke", "red")
-.style("fill", "none"); 
 		
 		
         control.force = d3.layout.force().
@@ -410,7 +416,7 @@ var ind = data, nodes = [],links =[];
    var options= control.options;
    
    total_right = nodes.map(x=>x.right).filter(v => v).length
-   total_left = nodes.map(x=> !x.right).filter(v => v).length
+   total_left = nodes.map(x=> !x.right).filter(v => v).length -  81
    
    init_height_right = ((total_left - total_right)/2) * (control.pageRectSize.height/2)
    //console.log(control.pageRectSize.height)
@@ -474,7 +480,7 @@ function getTheRawData() {
     // sitewheel.json - both
     // allwheel.json - site
 
-    var dataUrl = getParameterByName('data') || "https://raw.githubusercontent.com/slfan2013/Jenny-Zhang-9.4.2018/master/phenotypes_json.json?token=AMzRRj3d-xT_wwBI3Yd8I_UQUZPyJKbMks5bxjoiwA%3D%3D";
+    var dataUrl = getParameterByName('data') || "https://raw.githubusercontent.com/slfan2013/Jenny-Vis/master/phenotypes_json%201.json";
       
     // promise will be resolved when done
     return getPromiseData(dataUrl,proxyUrl);
