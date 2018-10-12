@@ -567,6 +567,9 @@ clearInterval(myVar)
 
 
 keys = Object.keys(counts);
+keys=keys.map(x => x.replace("IMPC_",""))
+keys=keys.map(x => x.replace("___","_"))
+keys=keys.map(x => x.replace("IMPC_",""))
 
 // Then sort by using the keys to lookup the values in the original object:
 keys.sort(function(a, b) { return counts[a] - counts[b] });
