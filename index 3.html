@@ -52,7 +52,7 @@ num_metabolite = ccc.nodes.map(x => !x.right).filter(v => v).length - 81
 
 
 
-$("#metabolite_text").text("number (radio) of metabolites: "+ccc.nodes.map(x => !x.right).filter(v => v).length + " ("+((ccc.nodes.map(x => !x.right).filter(v => v).length-81)/num_metabolite * 100).toFixed(2)+"%)");
+$("#metabolite_text").text("number (radio) of metabolites: "+num_metabolite + " ("+((ccc.nodes.map(x => !x.right).filter(v => v).length-81)/num_metabolite * 100).toFixed(2)+"%)");
 
 $("#protein_text").text("number (radio) of proteins: "+ccc.nodes.map(x => x.right).filter(v => v).length + " ("+(ccc.nodes.map(x => x.right).filter(v => v).length/num_protein * 100).toFixed(2)+"%)");
 
